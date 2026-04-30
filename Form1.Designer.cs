@@ -30,23 +30,23 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             boxShape = new GroupBox();
+            btnCircle = new Button();
+            btnSquare = new Button();
+            btnLine = new Button();
             boxColor = new GroupBox();
+            cmbColor = new ComboBox();
             boxLineWidth = new GroupBox();
+            lblLineWidth = new Label();
+            trbLineWidth = new TrackBar();
             lblAppName = new Label();
             picCanvas = new PictureBox();
-            btnLine = new Button();
-            btnSquare = new Button();
-            btnCircle = new Button();
-            cmbColor = new ComboBox();
-            trbLineWidth = new TrackBar();
-            lblLineWidth = new Label();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
             boxLineWidth.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
             SuspendLayout();
             // 
             // boxShape
@@ -63,6 +63,48 @@
             boxShape.TabStop = false;
             boxShape.Text = "도형 그리기";
             // 
+            // btnCircle
+            // 
+            btnCircle.BackColor = SystemColors.Control;
+            btnCircle.FlatStyle = FlatStyle.Flat;
+            btnCircle.Image = (Image)resources.GetObject("btnCircle.Image");
+            btnCircle.ImageAlign = ContentAlignment.TopCenter;
+            btnCircle.Location = new Point(207, 25);
+            btnCircle.Name = "btnCircle";
+            btnCircle.Size = new Size(89, 101);
+            btnCircle.TabIndex = 2;
+            btnCircle.Text = "원";
+            btnCircle.TextAlign = ContentAlignment.BottomCenter;
+            btnCircle.UseVisualStyleBackColor = false;
+            // 
+            // btnSquare
+            // 
+            btnSquare.BackColor = SystemColors.Control;
+            btnSquare.FlatStyle = FlatStyle.Flat;
+            btnSquare.Image = (Image)resources.GetObject("btnSquare.Image");
+            btnSquare.ImageAlign = ContentAlignment.TopCenter;
+            btnSquare.Location = new Point(112, 25);
+            btnSquare.Name = "btnSquare";
+            btnSquare.Size = new Size(89, 101);
+            btnSquare.TabIndex = 1;
+            btnSquare.Text = "사각형";
+            btnSquare.TextAlign = ContentAlignment.BottomCenter;
+            btnSquare.UseVisualStyleBackColor = false;
+            // 
+            // btnLine
+            // 
+            btnLine.BackColor = SystemColors.Control;
+            btnLine.FlatStyle = FlatStyle.Flat;
+            btnLine.Image = (Image)resources.GetObject("btnLine.Image");
+            btnLine.ImageAlign = ContentAlignment.TopCenter;
+            btnLine.Location = new Point(17, 25);
+            btnLine.Name = "btnLine";
+            btnLine.Size = new Size(89, 101);
+            btnLine.TabIndex = 0;
+            btnLine.Text = "직선";
+            btnLine.TextAlign = ContentAlignment.BottomCenter;
+            btnLine.UseVisualStyleBackColor = false;
+            // 
             // boxColor
             // 
             boxColor.Controls.Add(cmbColor);
@@ -74,6 +116,15 @@
             boxColor.TabIndex = 1;
             boxColor.TabStop = false;
             boxColor.Text = "색 선택";
+            // 
+            // cmbColor
+            // 
+            cmbColor.FormattingEnabled = true;
+            cmbColor.Items.AddRange(new object[] { "Black", "Red", "Green", "Blue" });
+            cmbColor.Location = new Point(10, 57);
+            cmbColor.Name = "cmbColor";
+            cmbColor.Size = new Size(141, 27);
+            cmbColor.TabIndex = 0;
             // 
             // boxLineWidth
             // 
@@ -87,6 +138,25 @@
             boxLineWidth.TabIndex = 2;
             boxLineWidth.TabStop = false;
             boxLineWidth.Text = "선 두께";
+            // 
+            // lblLineWidth
+            // 
+            lblLineWidth.AutoSize = true;
+            lblLineWidth.Font = new Font("나눔고딕", 20F, FontStyle.Bold);
+            lblLineWidth.Location = new Point(18, 87);
+            lblLineWidth.Name = "lblLineWidth";
+            lblLineWidth.Size = new Size(140, 31);
+            lblLineWidth.TabIndex = 1;
+            lblLineWidth.Text = "Width : 0";
+            lblLineWidth.TextAlign = ContentAlignment.TopCenter;
+            // 
+            // trbLineWidth
+            // 
+            trbLineWidth.BackColor = SystemColors.AppWorkspace;
+            trbLineWidth.Location = new Point(18, 39);
+            trbLineWidth.Name = "trbLineWidth";
+            trbLineWidth.Size = new Size(161, 45);
+            trbLineWidth.TabIndex = 0;
             // 
             // lblAppName
             // 
@@ -108,75 +178,6 @@
             picCanvas.Size = new Size(1240, 667);
             picCanvas.TabIndex = 4;
             picCanvas.TabStop = false;
-            // 
-            // btnLine
-            // 
-            btnLine.BackColor = SystemColors.Control;
-            btnLine.FlatStyle = FlatStyle.Flat;
-            btnLine.Image = (Image)resources.GetObject("btnLine.Image");
-            btnLine.ImageAlign = ContentAlignment.TopCenter;
-            btnLine.Location = new Point(17, 25);
-            btnLine.Name = "btnLine";
-            btnLine.Size = new Size(89, 101);
-            btnLine.TabIndex = 0;
-            btnLine.Text = "직선";
-            btnLine.TextAlign = ContentAlignment.BottomCenter;
-            btnLine.UseVisualStyleBackColor = false;
-            // 
-            // btnSquare
-            // 
-            btnSquare.BackColor = SystemColors.Control;
-            btnSquare.FlatStyle = FlatStyle.Flat;
-            btnSquare.Image = (Image)resources.GetObject("btnSquare.Image");
-            btnSquare.ImageAlign = ContentAlignment.TopCenter;
-            btnSquare.Location = new Point(112, 25);
-            btnSquare.Name = "btnSquare";
-            btnSquare.Size = new Size(89, 101);
-            btnSquare.TabIndex = 1;
-            btnSquare.Text = "사각형";
-            btnSquare.TextAlign = ContentAlignment.BottomCenter;
-            btnSquare.UseVisualStyleBackColor = false;
-            // 
-            // btnCircle
-            // 
-            btnCircle.BackColor = SystemColors.Control;
-            btnCircle.FlatStyle = FlatStyle.Flat;
-            btnCircle.Image = (Image)resources.GetObject("btnCircle.Image");
-            btnCircle.ImageAlign = ContentAlignment.TopCenter;
-            btnCircle.Location = new Point(207, 25);
-            btnCircle.Name = "btnCircle";
-            btnCircle.Size = new Size(89, 101);
-            btnCircle.TabIndex = 2;
-            btnCircle.Text = "원";
-            btnCircle.TextAlign = ContentAlignment.BottomCenter;
-            btnCircle.UseVisualStyleBackColor = false;
-            // 
-            // cmbColor
-            // 
-            cmbColor.FormattingEnabled = true;
-            cmbColor.Items.AddRange(new object[] { "Black", "Red", "Blue", "Green" });
-            cmbColor.Location = new Point(10, 57);
-            cmbColor.Name = "cmbColor";
-            cmbColor.Size = new Size(141, 27);
-            cmbColor.TabIndex = 0;
-            // 
-            // trbLineWidth
-            // 
-            trbLineWidth.BackColor = SystemColors.AppWorkspace;
-            trbLineWidth.Location = new Point(18, 39);
-            trbLineWidth.Name = "trbLineWidth";
-            trbLineWidth.Size = new Size(161, 45);
-            trbLineWidth.TabIndex = 0;
-            // 
-            // lblLineWidth
-            // 
-            lblLineWidth.AutoSize = true;
-            lblLineWidth.Font = new Font("나눔고딕", 24F, FontStyle.Bold);
-            lblLineWidth.Location = new Point(80, 87);
-            lblLineWidth.Name = "lblLineWidth";
-            lblLineWidth.Size = new Size(35, 36);
-            lblLineWidth.TabIndex = 1;
-            lblLineWidth.Text = "0";
             // 
             // btnOpenFile
             // 
@@ -221,8 +222,8 @@
             boxColor.ResumeLayout(false);
             boxLineWidth.ResumeLayout(false);
             boxLineWidth.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
