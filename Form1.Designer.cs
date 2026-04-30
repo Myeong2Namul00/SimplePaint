@@ -48,6 +48,9 @@
             boxPen = new GroupBox();
             btnPen = new Button();
             btnReset = new Button();
+            boxSizeControl = new GroupBox();
+            btnSizeUp = new Button();
+            btnSizeDown = new Button();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
@@ -55,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
             boxPen.SuspendLayout();
+            boxSizeControl.SuspendLayout();
             SuspendLayout();
             // 
             // boxShape
@@ -229,24 +233,24 @@
             // 
             btnOpenFile.BackColor = Color.FromArgb(255, 255, 192);
             btnOpenFile.FlatStyle = FlatStyle.Flat;
-            btnOpenFile.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
-            btnOpenFile.Location = new Point(1072, 185);
+            btnOpenFile.Font = new Font("나눔고딕", 14F, FontStyle.Bold);
+            btnOpenFile.Location = new Point(941, 105);
             btnOpenFile.Name = "btnOpenFile";
-            btnOpenFile.Size = new Size(79, 49);
+            btnOpenFile.Size = new Size(147, 49);
             btnOpenFile.TabIndex = 5;
-            btnOpenFile.Text = "열기";
+            btnOpenFile.Text = "이미지 열기";
             btnOpenFile.UseVisualStyleBackColor = false;
             // 
             // btnSaveFile
             // 
             btnSaveFile.BackColor = Color.FromArgb(192, 255, 192);
             btnSaveFile.FlatStyle = FlatStyle.Flat;
-            btnSaveFile.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
-            btnSaveFile.Location = new Point(1172, 184);
+            btnSaveFile.Font = new Font("나눔고딕", 14F, FontStyle.Bold);
+            btnSaveFile.Location = new Point(1094, 105);
             btnSaveFile.Name = "btnSaveFile";
-            btnSaveFile.Size = new Size(79, 49);
+            btnSaveFile.Size = new Size(157, 49);
             btnSaveFile.TabIndex = 6;
-            btnSaveFile.Text = "저장";
+            btnSaveFile.Text = "파일로 저장";
             btnSaveFile.UseVisualStyleBackColor = false;
             // 
             // boxPen
@@ -279,12 +283,48 @@
             btnReset.BackColor = Color.FromArgb(255, 192, 192);
             btnReset.FlatStyle = FlatStyle.Flat;
             btnReset.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
-            btnReset.Location = new Point(951, 185);
+            btnReset.Location = new Point(1094, 174);
             btnReset.Name = "btnReset";
-            btnReset.Size = new Size(101, 49);
+            btnReset.Size = new Size(157, 60);
             btnReset.TabIndex = 8;
-            btnReset.Text = "지우기";
+            btnReset.Text = "초기화";
             btnReset.UseVisualStyleBackColor = false;
+            // 
+            // boxSizeControl
+            // 
+            boxSizeControl.Controls.Add(btnSizeDown);
+            boxSizeControl.Controls.Add(btnSizeUp);
+            boxSizeControl.Font = new Font("나눔고딕", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            boxSizeControl.Location = new Point(941, 166);
+            boxSizeControl.Name = "boxSizeControl";
+            boxSizeControl.Size = new Size(147, 69);
+            boxSizeControl.TabIndex = 9;
+            boxSizeControl.TabStop = false;
+            boxSizeControl.Text = "이미지 확대/축소";
+            // 
+            // btnSizeUp
+            // 
+            btnSizeUp.BackColor = Color.White;
+            btnSizeUp.FlatStyle = FlatStyle.Flat;
+            btnSizeUp.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
+            btnSizeUp.Location = new Point(25, 24);
+            btnSizeUp.Name = "btnSizeUp";
+            btnSizeUp.Size = new Size(36, 36);
+            btnSizeUp.TabIndex = 9;
+            btnSizeUp.Text = "+";
+            btnSizeUp.UseVisualStyleBackColor = false;
+            // 
+            // btnSizeDown
+            // 
+            btnSizeDown.BackColor = Color.White;
+            btnSizeDown.FlatStyle = FlatStyle.Flat;
+            btnSizeDown.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
+            btnSizeDown.Location = new Point(87, 24);
+            btnSizeDown.Name = "btnSizeDown";
+            btnSizeDown.Size = new Size(36, 36);
+            btnSizeDown.TabIndex = 10;
+            btnSizeDown.Text = "-";
+            btnSizeDown.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -292,6 +332,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.AppWorkspace;
             ClientSize = new Size(1264, 921);
+            Controls.Add(boxSizeControl);
             Controls.Add(btnReset);
             Controls.Add(boxPen);
             Controls.Add(btnSaveFile);
@@ -311,6 +352,7 @@
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
             boxPen.ResumeLayout(false);
+            boxSizeControl.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -336,5 +378,8 @@
         private GroupBox boxPen;
         private Button btnPen;
         private Button btnReset;
+        private GroupBox boxSizeControl;
+        private Button btnSizeDown;
+        private Button btnSizeUp;
     }
 }

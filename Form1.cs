@@ -31,20 +31,38 @@ namespace SimplePaint
         private Color currentColor = Color.Black;
         private int currentLineWidth = 2;
 
+        private float zoomFactor = 1.0f;
+        private Panel canvasPanel;
+
         public Form1()
         {
             InitializeComponent();
 
-            canvasBitmap = new Bitmap(picCanvas.Width, picCanvas.Height);
+            canvasPanel = new Panel();
+            canvasPanel.Location = picCanvas.Location;
+            canvasPanel.Size = picCanvas.Size;
+            canvasPanel.AutoScroll = true;
+            canvasPanel.BorderStyle = BorderStyle.FixedSingle;
+
+            this.Controls.Remove(picCanvas);
+            canvasPanel.Controls.Add(picCanvas);
+            this.Controls.Add(canvasPanel);
+
+            picCanvas.Location = new Point(0, 0);
+            picCanvas.BorderStyle = BorderStyle.None;
+
+            canvasBitmap = new Bitmap(canvasPanel.Width, canvasPanel.Height);
             canvasGraphics = Graphics.FromImage(canvasBitmap);
             canvasGraphics.Clear(Color.White);
 
-            picCanvas.Image = canvasBitmap;
+            picCanvas.Size = canvasBitmap.Size;
+            picCanvas.Image = null; // We are drawing it in Paint
 
             // Set up event handlers
             picCanvas.MouseDown += PicCanvas_MouseDown;
             picCanvas.MouseMove += PicCanvas_MouseMove;
             picCanvas.MouseUp += PicCanvas_MouseUp;
+            picCanvas.MouseWheel += PicCanvas_MouseWheel;
 
             picCanvas.Paint += PicCanvas_Paint;
 
@@ -56,8 +74,11 @@ namespace SimplePaint
             btnCurve.Click += btnCurve_Click;
             btnPen.Click += btnPen_Click;
             btnPalette.Click += btnPalette_Click;
+            btnOpenFile.Click += btnOpenFile_Click;
             btnSaveFile.Click += btnSaveFile_Click;
             btnReset.Click += btnReset_Click;
+            if (btnSizeUp != null) btnSizeUp.Click += btnSizeUp_Click;
+            if (btnSizeDown != null) btnSizeDown.Click += btnSizeDown_Click;
 
             cmbColor.SelectedIndexChanged += cmbColor_SelectedIndexChanged;
             cmbColor.SelectedIndex = 0;
@@ -70,38 +91,45 @@ namespace SimplePaint
             lblLineWidth.Text = "Width : " + currentLineWidth.ToString();
         }
 
+        private Point GetImagePoint(Point p)
+        {
+            return new Point((int)(p.X / zoomFactor), (int)(p.Y / zoomFactor));
+        }
+
         // Event Handlers
 
         private void PicCanvas_MouseDown(object sender, MouseEventArgs e)
         {
+            Point imgPt = GetImagePoint(e.Location);
+
             if (currentTool == ToolType.Curve)
             {
                 if (curveState == 0)
                 {
                     isDrawing = true;
-                    startPoint = e.Location;
-                    curveP1 = e.Location;
-                    curveP2 = e.Location;
+                    startPoint = imgPt;
+                    curveP1 = imgPt;
+                    curveP2 = imgPt;
                     curveState = 1;
                 }
                 else if (curveState == 2)
                 {
                     isDrawing = true;
-                    curveP3 = e.Location;
-                    curveP4 = e.Location;
+                    curveP3 = imgPt;
+                    curveP4 = imgPt;
                     curveState = 3;
                 }
                 else if (curveState == 4)
                 {
                     isDrawing = true;
-                    curveP4 = e.Location;
+                    curveP4 = imgPt;
                     curveState = 5;
                 }
             }
             else
             {
                 isDrawing = true;
-                startPoint = e.Location;
+                startPoint = imgPt;
             }
         }
 
@@ -109,26 +137,28 @@ namespace SimplePaint
         {
             if (!isDrawing) return;
 
+            Point imgPt = GetImagePoint(e.Location);
+
             if (currentTool == ToolType.Curve)
             {
                 if (curveState == 1)
                 {
-                    endPoint = e.Location;
-                    curveP2 = e.Location;
+                    endPoint = imgPt;
+                    curveP2 = imgPt;
                 }
                 else if (curveState == 3)
                 {
-                    curveP3 = e.Location;
-                    curveP4 = e.Location;
+                    curveP3 = imgPt;
+                    curveP4 = imgPt;
                 }
                 else if (curveState == 5)
                 {
-                    curveP4 = e.Location;
+                    curveP4 = imgPt;
                 }
             }
             else if (currentTool == ToolType.Pen)
             {
-                endPoint = e.Location;
+                endPoint = imgPt;
                 using (Pen pen = new Pen(currentColor, currentLineWidth))
                 {
                     pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
@@ -140,7 +170,7 @@ namespace SimplePaint
             }
             else
             {
-                endPoint = e.Location;
+                endPoint = imgPt;
             }
             picCanvas.Invalidate();
         }
@@ -150,26 +180,27 @@ namespace SimplePaint
             if (!isDrawing) return;
 
             isDrawing = false;
+            Point imgPt = GetImagePoint(e.Location);
 
             if (currentTool == ToolType.Curve)
             {
                 if (curveState == 1)
                 {
-                    endPoint = e.Location;
-                    curveP2 = e.Location;
+                    endPoint = imgPt;
+                    curveP2 = imgPt;
                     curveState = 2;
                     picCanvas.Invalidate();
                 }
                 else if (curveState == 3)
                 {
-                    curveP3 = e.Location;
-                    curveP4 = e.Location;
+                    curveP3 = imgPt;
+                    curveP4 = imgPt;
                     curveState = 4;
                     picCanvas.Invalidate();
                 }
                 else if (curveState == 5)
                 {
-                    curveP4 = e.Location;
+                    curveP4 = imgPt;
                     using (Pen pen = new Pen(currentColor, currentLineWidth))
                     {
                         DrawShape(canvasGraphics, pen, startPoint, endPoint);
@@ -184,7 +215,7 @@ namespace SimplePaint
             }
             else
             {
-                endPoint = e.Location;
+                endPoint = imgPt;
 
                 using (Pen pen = new Pen(currentColor, currentLineWidth))
                 {
@@ -195,8 +226,26 @@ namespace SimplePaint
             }
         }
 
+        private void UpdateZoom(float multiplier)
+        {
+            zoomFactor *= multiplier;
+            zoomFactor = Math.Max(0.1f, Math.Min(10.0f, zoomFactor));
+            picCanvas.Size = new Size((int)(canvasBitmap.Width * zoomFactor), (int)(canvasBitmap.Height * zoomFactor));
+            picCanvas.Invalidate();
+        }
+
+        private void PicCanvas_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (ModifierKeys.HasFlag(Keys.Control))
+            {
+                if (e.Delta > 0) UpdateZoom(1.2f);
+                else UpdateZoom(1.0f / 1.2f);
+            }
+        }
+
         private void PicCanvas_Paint(object sender, PaintEventArgs e)
         {
+            e.Graphics.ScaleTransform(zoomFactor, zoomFactor);
             e.Graphics.DrawImage(canvasBitmap, Point.Empty);
 
             bool isCurvePreview = (currentTool == ToolType.Curve && curveState > 0);
@@ -204,6 +253,7 @@ namespace SimplePaint
             if (currentTool == ToolType.Pen) return;
 
             Color previewColor = currentColor;
+
 
             previewColor = Color.FromArgb(128, 64, 64, 64);
 
@@ -341,12 +391,47 @@ namespace SimplePaint
             }
         }
 
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp";
+                openFileDialog.Title = "이미지 열기";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (Image img = Image.FromFile(openFileDialog.FileName))
+                    {
+                        canvasBitmap = new Bitmap(img);
+                    }
+
+                    if (canvasGraphics != null) canvasGraphics.Dispose();
+                    canvasGraphics = Graphics.FromImage(canvasBitmap);
+
+                    zoomFactor = 1.0f;
+                    picCanvas.Size = canvasBitmap.Size;
+                    curveState = 0;
+                    isDrawing = false;
+                    picCanvas.Invalidate();
+                }
+            }
+        }
+
         private void btnReset_Click(object sender, EventArgs e)
         {
             canvasGraphics.Clear(Color.White);
             curveState = 0;
             isDrawing = false;
             picCanvas.Invalidate();
+        }
+
+        private void btnSizeUp_Click(object sender, EventArgs e)
+        {
+            UpdateZoom(1.2f);
+        }
+
+        private void btnSizeDown_Click(object sender, EventArgs e)
+        {
+            UpdateZoom(1.0f / 1.2f);
         }
 
         // functions
