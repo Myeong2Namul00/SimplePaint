@@ -12,7 +12,8 @@ namespace SimplePaint
         {
             Line,
             Rectangle,
-            Circle
+            Circle,
+            Curve
         }
 
         private Bitmap canvasBitmap;
@@ -21,6 +22,9 @@ namespace SimplePaint
         private bool isDrawing = false;
         private Point startPoint;
         private Point endPoint;
+
+        private int curveState = 0;
+        private Point curveP1, curveP2, curveP3, curveP4;
 
         private ToolType currentTool = ToolType.Line;
         private Color currentColor = Color.Black;
@@ -46,6 +50,7 @@ namespace SimplePaint
             btnLine.Click += btnLine_Click;
             btnSquare.Click += btnSquare_Click;
             btnCircle.Click += btnCircle_Click;
+            btnCurve.Click += btnCurve_Click;
 
             cmbColor.SelectedIndexChanged += cmbColor_SelectedIndexChanged;
             cmbColor.SelectedIndex = 0;
@@ -62,15 +67,62 @@ namespace SimplePaint
 
         private void PicCanvas_MouseDown(object sender, MouseEventArgs e)
         {
-            isDrawing = true;
-            startPoint = e.Location;
+            if (currentTool == ToolType.Curve)
+            {
+                if (curveState == 0)
+                {
+                    isDrawing = true;
+                    startPoint = e.Location;
+                    curveP1 = e.Location;
+                    curveP2 = e.Location;
+                    curveState = 1;
+                }
+                else if (curveState == 2)
+                {
+                    isDrawing = true;
+                    curveP3 = e.Location;
+                    curveP4 = e.Location;
+                    curveState = 3;
+                }
+                else if (curveState == 4)
+                {
+                    isDrawing = true;
+                    curveP4 = e.Location;
+                    curveState = 5;
+                }
+            }
+            else
+            {
+                isDrawing = true;
+                startPoint = e.Location;
+            }
         }
 
         private void PicCanvas_MouseMove(object sender, MouseEventArgs e)
         {
             if (!isDrawing) return;
 
-            endPoint = e.Location;
+            if (currentTool == ToolType.Curve)
+            {
+                if (curveState == 1)
+                {
+                    endPoint = e.Location;
+                    curveP2 = e.Location;
+                }
+                else if (curveState == 3)
+                {
+                    curveP3 = e.Location;
+                    curveP4 = e.Location;
+                }
+                else if (curveState == 5)
+                {
+                    curveP4 = e.Location;
+                }
+            }
+            else
+            {
+                endPoint = e.Location;
+            }
             picCanvas.Invalidate();
         }
 
@@ -79,24 +131,57 @@ namespace SimplePaint
             if (!isDrawing) return;
 
             isDrawing = false;
-            endPoint = e.Location;
 
-            using (Pen pen = new Pen(currentColor, currentLineWidth))
+            if (currentTool == ToolType.Curve)
             {
-                DrawShape(canvasGraphics, pen, startPoint, endPoint);
+                if (curveState == 1)
+                {
+                    endPoint = e.Location;
+                    curveP2 = e.Location;
+                    curveState = 2;
+                    picCanvas.Invalidate();
+                }
+                else if (curveState == 3)
+                {
+                    curveP3 = e.Location;
+                    curveP4 = e.Location;
+                    curveState = 4;
+                    picCanvas.Invalidate();
+                }
+                else if (curveState == 5)
+                {
+                    curveP4 = e.Location;
+                    using (Pen pen = new Pen(currentColor, currentLineWidth))
+                    {
+                        DrawShape(canvasGraphics, pen, startPoint, endPoint);
+                    }
+                    curveState = 0;
+                    picCanvas.Invalidate();
+                }
             }
+            else
+            {
+                endPoint = e.Location;
 
-            picCanvas.Invalidate();
+                using (Pen pen = new Pen(currentColor, currentLineWidth))
+                {
+                    DrawShape(canvasGraphics, pen, startPoint, endPoint);
+                }
+
+                picCanvas.Invalidate();
+            }
         }
 
         private void PicCanvas_Paint(object sender, PaintEventArgs e)
         {
             e.Graphics.DrawImage(canvasBitmap, Point.Empty);
-            if (!isDrawing) return;
+
+            bool isCurvePreview = (currentTool == ToolType.Curve && curveState > 0);
+            if (!isDrawing && !isCurvePreview) return;
 
             Color previewColor = currentColor;
 
-            previewColor = Color.FromArgb(128, previewColor.R + 64, previewColor.G + 64, previewColor.B + 64);
+            previewColor = Color.FromArgb(128, getPreviewColor(previewColor.R), getPreviewColor(previewColor.G), getPreviewColor(previewColor.B));
 
             using (Pen previewPen = new Pen(previewColor, currentLineWidth))
             {
@@ -138,28 +223,52 @@ namespace SimplePaint
         private void btnLine_Click(object sender, EventArgs e)
         {
             currentTool = ToolType.Line;
+            curveState = 0;
+            picCanvas.Invalidate();
             refreshButtons();
         }
 
         private void btnSquare_Click(object sender, EventArgs e)
         {
             currentTool = ToolType.Rectangle;
+            curveState = 0;
+            picCanvas.Invalidate();
             refreshButtons();
         }
 
         private void btnCircle_Click(object sender, EventArgs e)
         {
             currentTool = ToolType.Circle;
+            curveState = 0;
+            picCanvas.Invalidate();
+            refreshButtons();
+        }
+
+        private void btnCurve_Click(object sender, EventArgs e)
+        {
+            currentTool = ToolType.Curve;
+            curveState = 0;
+            picCanvas.Invalidate();
             refreshButtons();
         }
 
         // functions
+
+        private int getPreviewColor(int color)
+        {
+            if (color <= 64) return (int)(color + 32);
+            else
+            {
+                return 0;
+            }
+        }
 
         private void refreshButtons()
         {
             btnLine.BackColor = Color.White;
             btnSquare.BackColor = Color.White;
             btnCircle.BackColor = Color.White;
+            btnCurve.BackColor = Color.White;
 
             switch (currentTool)
             {
@@ -171,6 +280,9 @@ namespace SimplePaint
                     break;
                 case ToolType.Circle:
                     btnCircle.BackColor = Color.Gray;
+                    break;
+                case ToolType.Curve:
+                    btnCurve.BackColor = Color.Gray;
                     break;
                 default:
                     break;
@@ -190,6 +302,14 @@ namespace SimplePaint
                     break;
                 case ToolType.Circle:
                     g.DrawEllipse(pen, rect);
+                    break;
+                case ToolType.Curve:
+                    Point cp1 = p1;
+                    Point cp2 = p2;
+                    if (curveState >= 3) cp1 = curveP3;
+                    if (curveState == 3 || curveState == 4) cp2 = curveP3;
+                    else if (curveState >= 5) cp2 = curveP4;
+                    g.DrawBezier(pen, p1, cp1, cp2, p2);
                     break;
             }
         }

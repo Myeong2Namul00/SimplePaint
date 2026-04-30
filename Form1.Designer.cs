@@ -42,6 +42,7 @@
             picCanvas = new PictureBox();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
+            btnCurve = new Button();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
             boxLineWidth.SuspendLayout();
@@ -51,6 +52,7 @@
             // 
             // boxShape
             // 
+            boxShape.Controls.Add(btnCurve);
             boxShape.Controls.Add(btnCircle);
             boxShape.Controls.Add(btnSquare);
             boxShape.Controls.Add(btnLine);
@@ -69,7 +71,7 @@
             btnCircle.FlatStyle = FlatStyle.Flat;
             btnCircle.Image = (Image)resources.GetObject("btnCircle.Image");
             btnCircle.ImageAlign = ContentAlignment.TopCenter;
-            btnCircle.Location = new Point(207, 25);
+            btnCircle.Location = new Point(232, 25);
             btnCircle.Name = "btnCircle";
             btnCircle.Size = new Size(89, 101);
             btnCircle.TabIndex = 2;
@@ -83,7 +85,7 @@
             btnSquare.FlatStyle = FlatStyle.Flat;
             btnSquare.Image = (Image)resources.GetObject("btnSquare.Image");
             btnSquare.ImageAlign = ContentAlignment.TopCenter;
-            btnSquare.Location = new Point(112, 25);
+            btnSquare.Location = new Point(126, 25);
             btnSquare.Name = "btnSquare";
             btnSquare.Size = new Size(89, 101);
             btnSquare.TabIndex = 1;
@@ -203,6 +205,20 @@
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
             // 
+            // btnCurve
+            // 
+            btnCurve.BackColor = SystemColors.Control;
+            btnCurve.FlatStyle = FlatStyle.Flat;
+            btnCurve.Image = (Image)resources.GetObject("btnCurve.Image");
+            btnCurve.ImageAlign = ContentAlignment.TopCenter;
+            btnCurve.Location = new Point(338, 25);
+            btnCurve.Name = "btnCurve";
+            btnCurve.Size = new Size(89, 101);
+            btnCurve.TabIndex = 3;
+            btnCurve.Text = "곡선";
+            btnCurve.TextAlign = ContentAlignment.BottomCenter;
+            btnCurve.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -243,5 +259,6 @@
         private TrackBar trbLineWidth;
         private Button btnOpenFile;
         private Button btnSaveFile;
+        private Button btnCurve;
     }
 }
