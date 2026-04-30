@@ -47,10 +47,13 @@ namespace SimplePaint
 
             picCanvas.Paint += PicCanvas_Paint;
 
+            picColor.BackColor = currentColor;
+
             btnLine.Click += btnLine_Click;
             btnSquare.Click += btnSquare_Click;
             btnCircle.Click += btnCircle_Click;
             btnCurve.Click += btnCurve_Click;
+            btnPalette.Click += btnPalette_Click;
 
             cmbColor.SelectedIndexChanged += cmbColor_SelectedIndexChanged;
             cmbColor.SelectedIndex = 0;
@@ -181,7 +184,7 @@ namespace SimplePaint
 
             Color previewColor = currentColor;
 
-            previewColor = Color.FromArgb(128, getPreviewColor(previewColor.R), getPreviewColor(previewColor.G), getPreviewColor(previewColor.B));
+            previewColor = Color.FromArgb(128, 64, 64, 64);
 
             using (Pen previewPen = new Pen(previewColor, currentLineWidth))
             {
@@ -210,6 +213,8 @@ namespace SimplePaint
                     currentColor = Color.Black;
                     break;
             }
+
+            picColor.BackColor = currentColor;
         }
 
         private void trbLineWidth_ValueChanged(object sender, EventArgs e)
@@ -252,16 +257,29 @@ namespace SimplePaint
             refreshButtons();
         }
 
-        // functions
+        private ColorPalette colorPaletteForm;
 
-        private int getPreviewColor(int color)
+        private void btnPalette_Click(object sender, EventArgs e)
         {
-            if (color <= 64) return (int)(color + 32);
+            if (colorPaletteForm == null || colorPaletteForm.IsDisposed)
+            {
+                colorPaletteForm = new ColorPalette();
+                colorPaletteForm.StartPosition = FormStartPosition.Manual;
+                colorPaletteForm.Location = new Point(this.Right, this.Top);
+                colorPaletteForm.ColorSelected += (color) =>
+                {
+                    currentColor = color;
+                    picColor.BackColor = currentColor;
+                };
+                colorPaletteForm.Show(this);
+            }
             else
             {
-                return 0;
+                colorPaletteForm.Focus();
             }
         }
+
+        // functions
 
         private void refreshButtons()
         {

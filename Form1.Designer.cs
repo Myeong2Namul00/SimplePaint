@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             boxShape = new GroupBox();
+            btnCurve = new Button();
             btnCircle = new Button();
             btnSquare = new Button();
             btnLine = new Button();
@@ -42,12 +43,14 @@
             picCanvas = new PictureBox();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
-            btnCurve = new Button();
+            btnPalette = new Button();
+            picColor = new PictureBox();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
             boxLineWidth.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
             SuspendLayout();
             // 
             // boxShape
@@ -64,6 +67,20 @@
             boxShape.TabIndex = 0;
             boxShape.TabStop = false;
             boxShape.Text = "도형 그리기";
+            // 
+            // btnCurve
+            // 
+            btnCurve.BackColor = SystemColors.Control;
+            btnCurve.FlatStyle = FlatStyle.Flat;
+            btnCurve.Image = (Image)resources.GetObject("btnCurve.Image");
+            btnCurve.ImageAlign = ContentAlignment.TopCenter;
+            btnCurve.Location = new Point(338, 25);
+            btnCurve.Name = "btnCurve";
+            btnCurve.Size = new Size(89, 101);
+            btnCurve.TabIndex = 3;
+            btnCurve.Text = "곡선";
+            btnCurve.TextAlign = ContentAlignment.BottomCenter;
+            btnCurve.UseVisualStyleBackColor = false;
             // 
             // btnCircle
             // 
@@ -109,6 +126,8 @@
             // 
             // boxColor
             // 
+            boxColor.Controls.Add(picColor);
+            boxColor.Controls.Add(btnPalette);
             boxColor.Controls.Add(cmbColor);
             boxColor.FlatStyle = FlatStyle.Flat;
             boxColor.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
@@ -123,7 +142,7 @@
             // 
             cmbColor.FormattingEnabled = true;
             cmbColor.Items.AddRange(new object[] { "Black", "Red", "Green", "Blue" });
-            cmbColor.Location = new Point(10, 57);
+            cmbColor.Location = new Point(10, 44);
             cmbColor.Name = "cmbColor";
             cmbColor.Size = new Size(141, 27);
             cmbColor.TabIndex = 0;
@@ -205,19 +224,26 @@
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
             // 
-            // btnCurve
+            // btnPalette
             // 
-            btnCurve.BackColor = SystemColors.Control;
-            btnCurve.FlatStyle = FlatStyle.Flat;
-            btnCurve.Image = (Image)resources.GetObject("btnCurve.Image");
-            btnCurve.ImageAlign = ContentAlignment.TopCenter;
-            btnCurve.Location = new Point(338, 25);
-            btnCurve.Name = "btnCurve";
-            btnCurve.Size = new Size(89, 101);
-            btnCurve.TabIndex = 3;
-            btnCurve.Text = "곡선";
-            btnCurve.TextAlign = ContentAlignment.BottomCenter;
-            btnCurve.UseVisualStyleBackColor = false;
+            btnPalette.BackColor = Color.White;
+            btnPalette.FlatStyle = FlatStyle.Flat;
+            btnPalette.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
+            btnPalette.Location = new Point(10, 87);
+            btnPalette.Name = "btnPalette";
+            btnPalette.Size = new Size(108, 39);
+            btnPalette.TabIndex = 7;
+            btnPalette.Text = "팔레트 열기";
+            btnPalette.UseVisualStyleBackColor = false;
+            // 
+            // picColor
+            // 
+            picColor.BorderStyle = BorderStyle.FixedSingle;
+            picColor.Location = new Point(124, 94);
+            picColor.Name = "picColor";
+            picColor.Size = new Size(29, 28);
+            picColor.TabIndex = 8;
+            picColor.TabStop = false;
             // 
             // Form1
             // 
@@ -240,6 +266,7 @@
             boxLineWidth.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picColor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -260,5 +287,7 @@
         private Button btnOpenFile;
         private Button btnSaveFile;
         private Button btnCurve;
+        private Button btnPalette;
+        private PictureBox picColor;
     }
 }
