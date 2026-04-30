@@ -2,6 +2,7 @@ namespace SimplePaint
 {
     using System;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using System.Windows.Forms;
 
@@ -259,7 +260,7 @@ namespace SimplePaint
 
             using (Pen previewPen = new Pen(previewColor, currentLineWidth))
             {
-                //previewPen.DashStyle = DashStyle.Dash;
+                previewPen.DashStyle = DashStyle.Dash;
                 DrawShape(e.Graphics, previewPen, startPoint, endPoint);
             }
         }
