@@ -49,8 +49,8 @@
             btnPen = new Button();
             btnReset = new Button();
             boxSizeControl = new GroupBox();
-            btnSizeUp = new Button();
             btnSizeDown = new Button();
+            btnSizeUp = new Button();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
@@ -302,18 +302,6 @@
             boxSizeControl.TabStop = false;
             boxSizeControl.Text = "이미지 확대/축소";
             // 
-            // btnSizeUp
-            // 
-            btnSizeUp.BackColor = Color.White;
-            btnSizeUp.FlatStyle = FlatStyle.Flat;
-            btnSizeUp.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
-            btnSizeUp.Location = new Point(25, 24);
-            btnSizeUp.Name = "btnSizeUp";
-            btnSizeUp.Size = new Size(36, 36);
-            btnSizeUp.TabIndex = 9;
-            btnSizeUp.Text = "+";
-            btnSizeUp.UseVisualStyleBackColor = false;
-            // 
             // btnSizeDown
             // 
             btnSizeDown.BackColor = Color.White;
@@ -325,6 +313,18 @@
             btnSizeDown.TabIndex = 10;
             btnSizeDown.Text = "-";
             btnSizeDown.UseVisualStyleBackColor = false;
+            // 
+            // btnSizeUp
+            // 
+            btnSizeUp.BackColor = Color.White;
+            btnSizeUp.FlatStyle = FlatStyle.Flat;
+            btnSizeUp.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
+            btnSizeUp.Location = new Point(25, 24);
+            btnSizeUp.Name = "btnSizeUp";
+            btnSizeUp.Size = new Size(36, 36);
+            btnSizeUp.TabIndex = 9;
+            btnSizeUp.Text = "+";
+            btnSizeUp.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
