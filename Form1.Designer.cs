@@ -35,6 +35,8 @@
             btnSquare = new Button();
             btnLine = new Button();
             boxColor = new GroupBox();
+            picColor = new PictureBox();
+            btnPalette = new Button();
             cmbColor = new ComboBox();
             boxLineWidth = new GroupBox();
             lblLineWidth = new Label();
@@ -43,14 +45,16 @@
             picCanvas = new PictureBox();
             btnOpenFile = new Button();
             btnSaveFile = new Button();
-            btnPalette = new Button();
-            picColor = new PictureBox();
+            boxPen = new GroupBox();
+            btnPen = new Button();
+            btnReset = new Button();
             boxShape.SuspendLayout();
             boxColor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
             boxLineWidth.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picColor).BeginInit();
+            boxPen.SuspendLayout();
             SuspendLayout();
             // 
             // boxShape
@@ -61,7 +65,7 @@
             boxShape.Controls.Add(btnLine);
             boxShape.FlatStyle = FlatStyle.Flat;
             boxShape.Font = new Font("나눔고딕", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
-            boxShape.Location = new Point(12, 98);
+            boxShape.Location = new Point(123, 97);
             boxShape.Name = "boxShape";
             boxShape.Size = new Size(443, 137);
             boxShape.TabIndex = 0;
@@ -131,12 +135,33 @@
             boxColor.Controls.Add(cmbColor);
             boxColor.FlatStyle = FlatStyle.Flat;
             boxColor.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
-            boxColor.Location = new Point(461, 98);
+            boxColor.Location = new Point(572, 97);
             boxColor.Name = "boxColor";
             boxColor.Size = new Size(161, 137);
             boxColor.TabIndex = 1;
             boxColor.TabStop = false;
             boxColor.Text = "색 선택";
+            // 
+            // picColor
+            // 
+            picColor.BorderStyle = BorderStyle.FixedSingle;
+            picColor.Location = new Point(124, 94);
+            picColor.Name = "picColor";
+            picColor.Size = new Size(29, 28);
+            picColor.TabIndex = 8;
+            picColor.TabStop = false;
+            // 
+            // btnPalette
+            // 
+            btnPalette.BackColor = Color.White;
+            btnPalette.FlatStyle = FlatStyle.Flat;
+            btnPalette.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
+            btnPalette.Location = new Point(10, 87);
+            btnPalette.Name = "btnPalette";
+            btnPalette.Size = new Size(108, 39);
+            btnPalette.TabIndex = 7;
+            btnPalette.Text = "팔레트 열기";
+            btnPalette.UseVisualStyleBackColor = false;
             // 
             // cmbColor
             // 
@@ -153,7 +178,7 @@
             boxLineWidth.Controls.Add(trbLineWidth);
             boxLineWidth.FlatStyle = FlatStyle.Flat;
             boxLineWidth.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
-            boxLineWidth.Location = new Point(628, 98);
+            boxLineWidth.Location = new Point(739, 97);
             boxLineWidth.Name = "boxLineWidth";
             boxLineWidth.Size = new Size(196, 137);
             boxLineWidth.TabIndex = 2;
@@ -205,9 +230,9 @@
             btnOpenFile.BackColor = Color.FromArgb(255, 255, 192);
             btnOpenFile.FlatStyle = FlatStyle.Flat;
             btnOpenFile.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
-            btnOpenFile.Location = new Point(1010, 185);
+            btnOpenFile.Location = new Point(1072, 185);
             btnOpenFile.Name = "btnOpenFile";
-            btnOpenFile.Size = new Size(105, 49);
+            btnOpenFile.Size = new Size(79, 49);
             btnOpenFile.TabIndex = 5;
             btnOpenFile.Text = "열기";
             btnOpenFile.UseVisualStyleBackColor = false;
@@ -217,33 +242,49 @@
             btnSaveFile.BackColor = Color.FromArgb(192, 255, 192);
             btnSaveFile.FlatStyle = FlatStyle.Flat;
             btnSaveFile.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
-            btnSaveFile.Location = new Point(1133, 185);
+            btnSaveFile.Location = new Point(1172, 184);
             btnSaveFile.Name = "btnSaveFile";
-            btnSaveFile.Size = new Size(105, 49);
+            btnSaveFile.Size = new Size(79, 49);
             btnSaveFile.TabIndex = 6;
             btnSaveFile.Text = "저장";
             btnSaveFile.UseVisualStyleBackColor = false;
             // 
-            // btnPalette
+            // boxPen
             // 
-            btnPalette.BackColor = Color.White;
-            btnPalette.FlatStyle = FlatStyle.Flat;
-            btnPalette.Font = new Font("나눔고딕", 12F, FontStyle.Bold);
-            btnPalette.Location = new Point(10, 87);
-            btnPalette.Name = "btnPalette";
-            btnPalette.Size = new Size(108, 39);
-            btnPalette.TabIndex = 7;
-            btnPalette.Text = "팔레트 열기";
-            btnPalette.UseVisualStyleBackColor = false;
+            boxPen.Controls.Add(btnPen);
+            boxPen.Font = new Font("나눔고딕", 12F, FontStyle.Bold, GraphicsUnit.Point, 129);
+            boxPen.Location = new Point(14, 97);
+            boxPen.Name = "boxPen";
+            boxPen.Size = new Size(101, 137);
+            boxPen.TabIndex = 7;
+            boxPen.TabStop = false;
+            boxPen.Text = "펜";
             // 
-            // picColor
+            // btnPen
             // 
-            picColor.BorderStyle = BorderStyle.FixedSingle;
-            picColor.Location = new Point(124, 94);
-            picColor.Name = "picColor";
-            picColor.Size = new Size(29, 28);
-            picColor.TabIndex = 8;
-            picColor.TabStop = false;
+            btnPen.BackColor = SystemColors.Control;
+            btnPen.FlatStyle = FlatStyle.Flat;
+            btnPen.Image = (Image)resources.GetObject("btnPen.Image");
+            btnPen.ImageAlign = ContentAlignment.TopCenter;
+            btnPen.Location = new Point(6, 25);
+            btnPen.Name = "btnPen";
+            btnPen.Size = new Size(89, 101);
+            btnPen.TabIndex = 4;
+            btnPen.Text = "그리기";
+            btnPen.TextAlign = ContentAlignment.BottomCenter;
+            btnPen.UseVisualStyleBackColor = false;
+            // 
+            // btnReset
+            // 
+            btnReset.BackColor = Color.FromArgb(255, 192, 192);
+            btnReset.FlatStyle = FlatStyle.Flat;
+            btnReset.Font = new Font("나눔고딕", 18F, FontStyle.Bold);
+            btnReset.Location = new Point(951, 185);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(101, 49);
+            btnReset.TabIndex = 8;
+            btnReset.Text = "지우기";
+            btnReset.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -251,6 +292,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.AppWorkspace;
             ClientSize = new Size(1264, 921);
+            Controls.Add(btnReset);
+            Controls.Add(boxPen);
             Controls.Add(btnSaveFile);
             Controls.Add(btnOpenFile);
             Controls.Add(picCanvas);
@@ -262,11 +305,12 @@
             Text = "Simple Paint";
             boxShape.ResumeLayout(false);
             boxColor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picColor).EndInit();
             boxLineWidth.ResumeLayout(false);
             boxLineWidth.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trbLineWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)picCanvas).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picColor).EndInit();
+            boxPen.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -289,5 +333,8 @@
         private Button btnCurve;
         private Button btnPalette;
         private PictureBox picColor;
+        private GroupBox boxPen;
+        private Button btnPen;
+        private Button btnReset;
     }
 }

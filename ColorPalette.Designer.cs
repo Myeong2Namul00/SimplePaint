@@ -42,13 +42,13 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // ColorPatette
+            // ColorPalette
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(617, 324);
+            ClientSize = new Size(612, 324);
             Controls.Add(pictureBox1);
-            Name = "ColorPatette";
+            Name = "ColorPalette";
             Text = "ColorPatette";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);

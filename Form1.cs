@@ -13,7 +13,8 @@ namespace SimplePaint
             Line,
             Rectangle,
             Circle,
-            Curve
+            Curve,
+            Pen
         }
 
         private Bitmap canvasBitmap;
@@ -53,7 +54,10 @@ namespace SimplePaint
             btnSquare.Click += btnSquare_Click;
             btnCircle.Click += btnCircle_Click;
             btnCurve.Click += btnCurve_Click;
+            btnPen.Click += btnPen_Click;
             btnPalette.Click += btnPalette_Click;
+            btnSaveFile.Click += btnSaveFile_Click;
+            btnReset.Click += btnReset_Click;
 
             cmbColor.SelectedIndexChanged += cmbColor_SelectedIndexChanged;
             cmbColor.SelectedIndex = 0;
@@ -122,6 +126,18 @@ namespace SimplePaint
                     curveP4 = e.Location;
                 }
             }
+            else if (currentTool == ToolType.Pen)
+            {
+                endPoint = e.Location;
+                using (Pen pen = new Pen(currentColor, currentLineWidth))
+                {
+                    pen.StartCap = System.Drawing.Drawing2D.LineCap.Round;
+                    pen.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+                    pen.LineJoin = System.Drawing.Drawing2D.LineJoin.Round;
+                    canvasGraphics.DrawLine(pen, startPoint, endPoint);
+                }
+                startPoint = endPoint;
+            }
             else
             {
                 endPoint = e.Location;
@@ -162,6 +178,10 @@ namespace SimplePaint
                     picCanvas.Invalidate();
                 }
             }
+            else if (currentTool == ToolType.Pen)
+            {
+                return;
+            }
             else
             {
                 endPoint = e.Location;
@@ -181,6 +201,7 @@ namespace SimplePaint
 
             bool isCurvePreview = (currentTool == ToolType.Curve && curveState > 0);
             if (!isDrawing && !isCurvePreview) return;
+            if (currentTool == ToolType.Pen) return;
 
             Color previewColor = currentColor;
 
@@ -257,6 +278,14 @@ namespace SimplePaint
             refreshButtons();
         }
 
+        private void btnPen_Click(object sender, EventArgs e)
+        {
+            currentTool = ToolType.Pen;
+            curveState = 0;
+            picCanvas.Invalidate();
+            refreshButtons();
+        }
+
         private ColorPalette colorPaletteForm;
 
         private void btnPalette_Click(object sender, EventArgs e)
@@ -270,6 +299,7 @@ namespace SimplePaint
                 {
                     currentColor = color;
                     picColor.BackColor = currentColor;
+                    cmbColor.Text = "Custom";
                 };
                 colorPaletteForm.Show(this);
             }
@@ -277,6 +307,46 @@ namespace SimplePaint
             {
                 colorPaletteForm.Focus();
             }
+        }
+
+        private void btnSaveFile_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "JPEG Image|*.jpg|PNG Image|*.png|Bitmap Image|*.bmp";
+                saveFileDialog.Title = "이미지 저장하기";
+                saveFileDialog.FileName = "Untitled";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    if (saveFileDialog.FileName != "")
+                    {
+                        ImageFormat format = ImageFormat.Jpeg;
+                        switch (saveFileDialog.FilterIndex)
+                        {
+                            case 1:
+                                format = ImageFormat.Jpeg;
+                                break;
+                            case 2:
+                                format = ImageFormat.Png;
+                                break;
+                            case 3:
+                                format = ImageFormat.Bmp;
+                                break;
+                        }
+
+                        canvasBitmap.Save(saveFileDialog.FileName, format);
+                    }
+                }
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            canvasGraphics.Clear(Color.White);
+            curveState = 0;
+            isDrawing = false;
+            picCanvas.Invalidate();
         }
 
         // functions
@@ -287,6 +357,7 @@ namespace SimplePaint
             btnSquare.BackColor = Color.White;
             btnCircle.BackColor = Color.White;
             btnCurve.BackColor = Color.White;
+            if (btnPen != null) btnPen.BackColor = Color.White;
 
             switch (currentTool)
             {
@@ -301,6 +372,9 @@ namespace SimplePaint
                     break;
                 case ToolType.Curve:
                     btnCurve.BackColor = Color.Gray;
+                    break;
+                case ToolType.Pen:
+                    if (btnPen != null) btnPen.BackColor = Color.Gray;
                     break;
                 default:
                     break;
